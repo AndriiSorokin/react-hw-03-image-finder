@@ -5,18 +5,31 @@ import Searchbar from './components/Searchbar/Searchbar';
 class App extends Component {
   state = {
     images: [],
+    page: 1,
+    searchQuery: '',
   };
-  componentDidMount() {}
 
-  searchQuery = query => {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchQuery !== this.state.searchQuery) {
+      this.searchImages();
+    }
+  }
+
+  onChangeQuery = query => {
+    this.setState({ searchQuery: query });
+  };
+  // https: //pixabay.com/api/?q=что_искать&page=номер_страницы&key=твой_ключ&image_type=photo&orientation=horizontal&per_page=12
+  searchImages = () => {
+    const { page, searchQuery } = this.state;
     axios
       .get(
-        `https://pixabay.com/api/?q=${query}&page=1&key=18687503-307ceda9bac4583df41d15aed&image_type=photo&orientation=horizontal&per_page=12`,
+        `https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=18687503-307ceda9bac4583df41d15aed&image_type=photo&orientation=horizontal&per_page=12`,
       )
       .then(img => {
-        this.setState({
-          images: img.data.hits,
-        });
+        this.setState(prevState => ({
+          images: [...prevState.images, ...img.data.hits],
+          page: prevState.page + 1,
+        }));
       });
   };
 
@@ -24,7 +37,7 @@ class App extends Component {
     const { images } = this.state;
     return (
       <div>
-        <Searchbar onSubmit={this.searchQuery} />
+        <Searchbar onSubmit={this.onChangeQuery} />
         <ul>
           {images.map(img => (
             <li key={img.id}>
@@ -32,6 +45,9 @@ class App extends Component {
             </li>
           ))}
         </ul>
+        <button onClick={this.searchImages} type="submit">
+          Load more
+        </button>
       </div>
     );
   }
