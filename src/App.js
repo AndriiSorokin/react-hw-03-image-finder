@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Searchbar from './components/Searchbar/Searchbar';
+import ImageGallery from './components/ImageGallery/ImageGallery';
+import Button from './components/Button/Button';
 
 class App extends Component {
   state = {
@@ -16,7 +18,7 @@ class App extends Component {
   }
 
   onChangeQuery = query => {
-    this.setState({ searchQuery: query });
+    this.setState({ searchQuery: query, page: 1, images: [] });
   };
   // https: //pixabay.com/api/?q=что_искать&page=номер_страницы&key=твой_ключ&image_type=photo&orientation=horizontal&per_page=12
   searchImages = () => {
@@ -30,25 +32,21 @@ class App extends Component {
           images: [...prevState.images, ...img.data.hits],
           page: prevState.page + 1,
         }));
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
       });
   };
 
   render() {
     const { images } = this.state;
     return (
-      <div>
+      <>
         <Searchbar onSubmit={this.onChangeQuery} />
-        <ul>
-          {images.map(img => (
-            <li key={img.id}>
-              <img src={img.webformatURL} alt={img.tags}></img>
-            </li>
-          ))}
-        </ul>
-        <button onClick={this.searchImages} type="submit">
-          Load more
-        </button>
-      </div>
+        <ImageGallery images={images} />
+        {images.length > 0 ? <Button searchImages={this.searchImages} /> : null}
+      </>
     );
   }
 }
