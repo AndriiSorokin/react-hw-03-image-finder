@@ -55,6 +55,7 @@ class App extends Component {
   };
 
   activeImages = ({ target }) => {
+    console.log(target);
     const image = target.dataset.source;
     this.setState({
       largeImageURL: image,
