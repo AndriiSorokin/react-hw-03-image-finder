@@ -32,7 +32,7 @@ class App extends Component {
     this.setState({ loader: true });
     axios
       .get(
-        `https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=18687503-307ceda9bac4583df41d15aed&image_type=photo&orientation=horizontal&per_page=10`,
+        `https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=18687503-307ceda9bac4583df41d15aed&image_type=photo&orientation=horizontal&per_page=12`,
       )
       .then(img => {
         this.setState(prevState => ({
