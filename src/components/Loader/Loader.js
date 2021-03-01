@@ -4,7 +4,7 @@ import Spiner from 'react-loader-spinner';
 const Loader = () => {
   return (
     <Spiner
-      type="Bars"
+      type="Puff"
       color="#00BFFF"
       height={100}
       width={100}

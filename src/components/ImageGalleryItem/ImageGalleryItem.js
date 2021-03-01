@@ -1,10 +1,14 @@
 import React from 'react';
 
-const ImageGalleryItem = ({ webformatURL, largeImageURL }) => {
-  console.log(webformatURL);
+const ImageGalleryItem = ({ webformatURL, largeImageURL, activeImages }) => {
   return (
-    <li className="ImageGalleryItem">
-      <img className="ImageGalleryItem-image" src={webformatURL} />
+    <li onClick={activeImages} className="ImageGalleryItem">
+      <img
+        className="ImageGalleryItem-image"
+        data-source={largeImageURL}
+        src={webformatURL}
+        alt="img"
+      />
     </li>
   );
 };

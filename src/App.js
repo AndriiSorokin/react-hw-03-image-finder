@@ -4,6 +4,7 @@ import Searchbar from './components/Searchbar/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button/Button';
 import Loader from './components/Loader/Loader';
+import Modal from './components/Modal/Modal';
 
 class App extends Component {
   state = {
@@ -11,6 +12,9 @@ class App extends Component {
     page: 1,
     searchQuery: '',
     loader: false,
+    error: false,
+    showModal: false,
+    largeImageURL: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -22,6 +26,7 @@ class App extends Component {
   onChangeQuery = query => {
     this.setState({ searchQuery: query, page: 1, images: [] });
   };
+
   searchImages = () => {
     const { page, searchQuery } = this.state;
     this.setState({ loader: true });
@@ -39,17 +44,34 @@ class App extends Component {
           behavior: 'smooth',
         });
       })
+      .catch(error => this.setState({ error }))
       .finally(() => this.setState({ loader: false }));
   };
 
+  openModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
+  activeImages = ({ target }) => {
+    const image = target.dataset.source;
+    this.setState({
+      largeImageURL: image,
+    });
+    this.openModal();
+  };
+
   render() {
-    const { images, loader } = this.state;
+    const { images, loader, error, showModal, largeImageURL } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.onChangeQuery} />
+        <ImageGallery images={images} onModal={this.openModal} activeImages={this.activeImages} />
+        {images.length > 0 && !loader && <Button searchImages={this.searchImages} />}
         {loader && <Loader />}
-        <ImageGallery images={images} />
-        {images.length > 0 ? <Button searchImages={this.searchImages} /> : null}
+        {error && <h1>Sorry error...</h1>}
+        {showModal && <Modal onModal={this.openModal} largeImageURL={largeImageURL} />}
       </>
     );
   }

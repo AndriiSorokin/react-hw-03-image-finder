@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
-const ImageGallery = ({ images }) => {
+const ImageGallery = ({ images, activeImages }) => {
   console.log(images);
   return (
     <ul className="ImageGallery">
@@ -9,6 +9,7 @@ const ImageGallery = ({ images }) => {
           key={img.id}
           webformatURL={img.webformatURL}
           largeImageURL={img.largeImageURL}
+          activeImages={activeImages}
         />
       ))}
     </ul>
