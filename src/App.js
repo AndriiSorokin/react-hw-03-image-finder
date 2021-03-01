@@ -3,12 +3,14 @@ import axios from 'axios';
 import Searchbar from './components/Searchbar/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button/Button';
+import Loader from './components/Loader/Loader';
 
 class App extends Component {
   state = {
     images: [],
     page: 1,
     searchQuery: '',
+    loader: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -20,12 +22,12 @@ class App extends Component {
   onChangeQuery = query => {
     this.setState({ searchQuery: query, page: 1, images: [] });
   };
-  // https: //pixabay.com/api/?q=что_искать&page=номер_страницы&key=твой_ключ&image_type=photo&orientation=horizontal&per_page=12
   searchImages = () => {
     const { page, searchQuery } = this.state;
+    this.setState({ loader: true });
     axios
       .get(
-        `https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=18687503-307ceda9bac4583df41d15aed&image_type=photo&orientation=horizontal&per_page=12`,
+        `https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=18687503-307ceda9bac4583df41d15aed&image_type=photo&orientation=horizontal&per_page=10`,
       )
       .then(img => {
         this.setState(prevState => ({
@@ -36,14 +38,16 @@ class App extends Component {
           top: document.documentElement.scrollHeight,
           behavior: 'smooth',
         });
-      });
+      })
+      .finally(() => this.setState({ loader: false }));
   };
 
   render() {
-    const { images } = this.state;
+    const { images, loader } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.onChangeQuery} />
+        {loader && <Loader />}
         <ImageGallery images={images} />
         {images.length > 0 ? <Button searchImages={this.searchImages} /> : null}
       </>
