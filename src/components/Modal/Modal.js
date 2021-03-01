@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -25,5 +25,10 @@ class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  onModal: PropTypes.func,
+  largeImageURL: PropTypes.string,
+};
 
 export default Modal;

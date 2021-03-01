@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ImageGalleryItem = ({ webformatURL, largeImageURL, activeImages }) => {
   return (
@@ -13,4 +14,9 @@ const ImageGalleryItem = ({ webformatURL, largeImageURL, activeImages }) => {
   );
 };
 
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string,
+  largeImageURL: PropTypes.string,
+  activeImages: PropTypes.func,
+};
 export default ImageGalleryItem;

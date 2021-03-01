@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 const ImageGallery = ({ images, activeImages }) => {
-  console.log(images);
   return (
     <ul className="ImageGallery">
       {images.map(img => (
@@ -14,6 +15,13 @@ const ImageGallery = ({ images, activeImages }) => {
       ))}
     </ul>
   );
+};
+
+ImageGallery.propTypes = {
+  images: PropTypes.array,
+  activeImages: PropTypes.func,
+  webformatURL: PropTypes.string,
+  largeImageURL: PropTypes.string,
 };
 
 export default ImageGallery;
