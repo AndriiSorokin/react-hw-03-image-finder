@@ -14,10 +14,16 @@ class Modal extends Component {
     }
   };
 
+  handleCloseModal = e => {
+    if (e.currentTarget === e.target) {
+      this.props.onModal();
+    }
+  };
+
   render() {
-    const { onModal, largeImageURL } = this.props;
+    const { largeImageURL } = this.props;
     return (
-      <div className="Overlay" onClick={onModal}>
+      <div className="Overlay" onClick={this.handleCloseModal}>
         <div className="Modal">
           <img src={largeImageURL} alt="big img" />
         </div>

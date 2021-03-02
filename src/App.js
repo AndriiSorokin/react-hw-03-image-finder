@@ -68,7 +68,7 @@ class App extends Component {
     return (
       <>
         <Searchbar onSubmit={this.onChangeQuery} />
-        <ImageGallery images={images} onModal={this.openModal} activeImages={this.activeImages} />
+        <ImageGallery images={images} activeImages={this.activeImages} />
         {images.length > 0 && !loader && <Button searchImages={this.searchImages} />}
         {loader && <Loader />}
         {error && <h1>Sorry error...</h1>}
